@@ -870,7 +870,8 @@ malaria.em <- function(geno=NULL, sizes=c(2), locus.label=NA){
 	lllast<-ll
 	diffL<-1000
 	
-	while( (diffL>0.00001) &(sum(allEstiPs==0)==0)){
+	#adding tolerance because numbers below "10^-300" is read as zero leading to div0 errors
+	while( (diffL>0.00001) &(sum(allEstiPs<1e-300)==0)){
 		allEstiPslast<-allEstiPs
 		EstiLambdalast<-EstiLambda 
 		w<-getallWeight.C.em (allHaploSet.C.alldata,allQij.C.alldata)
