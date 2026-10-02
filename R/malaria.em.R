@@ -345,11 +345,11 @@ toGenotypes <- function(genoData){
 getDesignforOneGenotype.additive<-function(HaploSet, nhaplo){
 	nset<-length(HaploSet)
 	if (nset==0){
-		xmat<-mat.or.vec(nset, nhaplo)
+		xmat<-matrix(0, nrow=nset, ncol=nhaplo)
 		xmat
 	}
 	else{
-		xmat<-mat.or.vec(nset, nhaplo)
+		xmat<-matrix(0, nrow=nset, ncol=nhaplo)
 	
 		nsize<-length(HaploSet[[1]])
 
