@@ -711,9 +711,11 @@ newton.glm<-function(w, cvector, EstiLambda)
 getOneScore.haplotype.em<-function(w,i, xmat.additive, allEstiPs){
 	nhaplo<-dim(xmat.additive)[2]
 	si.haplotype<-rep(0, nhaplo-1)
-	for (j in 1:nhaplo-1){
-		si.haplotype[j]<-w[i]*(xmat.additive[i,j]/allEstiPs[j]-xmat.additive[i,nhaplo]/allEstiPs[nhaplo])
+	if (nhaplo > 1){
+		for (j in 1:(nhaplo-1)){
+			si.haplotype[j]<-w[i]*(xmat.additive[i,j]/allEstiPs[j]-xmat.additive[i,nhaplo]/allEstiPs[nhaplo])
 		}
+	}
 	si.haplotype
 }
 
@@ -765,6 +767,13 @@ getStd.em<-function(allScore){
 	invScore<-Ginv(allScore)$Ginv
 	
 	lambda.std<-sqrt(invScore[nb,nb])
+
+	# With one haplotype its probability is fixed at 1, so its
+	# standard error is exactly 0 and there is no haplotype
+	# covariance block to invert.
+	if (nb == 1){
+		return(c(0, lambda.std))
+	}
 	
 	invScore.haplo<-as.matrix(invScore[-nb,-nb])
 
